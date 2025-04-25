@@ -101,6 +101,8 @@ void flip_atlas(Atlas& src, Atlas& dst) {
 
 void load_game_resources() {
 	AddFontResourceEx(_T("./resources/IPix.ttf"), FR_PRIVATE, NULL);
+
+	loadimage(&img_VS, _T("./resources/VS.png"));
 	
 	loadimage(&img_menu_background, _T("./resources/menu_background.png"));
 	loadimage(&img_1P, _T("./resources/1P.png"));
@@ -196,6 +198,8 @@ int main() {
 	load_game_resources();
 
 	initgraph(1280, 720, EW_SHOWCONSOLE);
+	settextstyle(28, 0, _T("IPix"));
+	setbkmode(TRANSPARENT);
 
 	BeginBatchDraw();
 
