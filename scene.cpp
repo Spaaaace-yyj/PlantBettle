@@ -1,6 +1,6 @@
 #include "scene.h"
 
-void Scene::on_draw() {
+void Scene::on_draw(const Camera& camera) {
 
 }
 
@@ -16,6 +16,6 @@ void Scene::on_input(const ExMessage& msg) {
 
 }
 
-void Scene::on_update() {
+void Scene::on_update(int delta) {
 
 }

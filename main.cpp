@@ -9,6 +9,7 @@
 #include "select_scene.h"
 #include "atlas.h"
 #include "util.h"
+#include "animation.h"
 
 #pragma comment(lib, "Winmm.lib")
 using namespace std;
@@ -187,6 +188,7 @@ void load_game_resources() {
 int main() {
 
 	ExMessage msg;
+	Camera camera;
 	menu_scene = new MenuScene();
 	game_scene = new GameScene();
 	select_scene = new SelectScene();
@@ -205,9 +207,15 @@ int main() {
 		while (peekmessage(&msg)) {
 			scene_manager.on_input(msg);
 		}
-		scene_manager.on_update();
+		static DWORD last_tick_time = GetTickCount();
+		DWORD current_tick_time = GetTickCount();
+		DWORD delta_tick = current_tick_time - last_tick_time;
+		scene_manager.on_update(delta_tick);
+		last_tick_time = current_tick_time;
+
 		cleardevice();
-		scene_manager.on_draw();
+		scene_manager.on_draw(camera);
+
 		FlushBatchDraw();
 
 		DWORD frame_end_time = GetTickCount();

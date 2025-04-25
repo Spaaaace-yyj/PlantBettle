@@ -13,7 +13,7 @@ void SceneManager::switch_to(SceneType type) {
 		break;
 	case SceneType::Game:
 		current_scene = game_scene;
-		break;
+		break;   
 	case SceneType::Select:
 		current_scene = select_scene;
 		break;
@@ -23,12 +23,12 @@ void SceneManager::switch_to(SceneType type) {
 	current_scene->on_enter();
 }
 
-void SceneManager::on_update() {
-	current_scene->on_update();
+void SceneManager::on_update(int delta) {
+	current_scene->on_update(delta);
 }
 
-void SceneManager::on_draw() {
-	current_scene->on_draw();
+void SceneManager::on_draw(const Camera& camera) {
+	current_scene->on_draw(camera);
 }
 
 void SceneManager::on_input(const ExMessage& msg) {

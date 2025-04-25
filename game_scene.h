@@ -9,8 +9,8 @@ extern SceneManager scene_manager;
 class GameScene : public Scene {
 public:
 	void on_enter();
-	void on_update();
-	void on_draw();
+	void on_update(int delta);
+	void on_draw(const Camera& camera);
 	void on_input(const ExMessage& msg);
 	void on_exit();
 private:
