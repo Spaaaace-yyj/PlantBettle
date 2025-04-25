@@ -51,8 +51,8 @@ void Animation::on_update(int delta) {
 	}
 }
 
-void Animation::on_draw(int x, int y) const {
-	putimage_alpha(x, y, atlas->get_image(idx_frame));
+void Animation::on_draw(const Camera& camera, int x, int y) const {
+	putimage_alpha(camera, x, y, atlas->get_image(idx_frame));
 }
 
 void Animation::set_callback_function(std::function<void()> callback) {

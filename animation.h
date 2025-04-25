@@ -3,6 +3,7 @@
 
 #include "atlas.h"
 #include "util.h"
+#include "camera.h"
 
 #include <functional>
 #include <graphics.h>
@@ -28,7 +29,7 @@ public:
 
 	void on_update(int delta);
 
-	void on_draw(int x, int y) const;
+	void on_draw(const Camera& camera, int x, int y) const;
 
 	void set_callback_function(std::function<void()> callback);
 
