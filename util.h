@@ -47,4 +47,20 @@ inline void putimage_alpha(const Camera& camera, int x, int y, int width, int he
 	AlphaBlend(GetImageHDC(NULL), (int)(x - camera.get_position().x), (int)(y - camera.get_position().y), w, h,
 		GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER , 0 , 255 , AC_SRC_ALPHA });
 }
+
+inline IMAGE combine_image(IMAGE src1, IMAGE src2, int scan_line) {
+	IMAGE result;
+	int w1 = src1.getwidth();
+	int w2 = src2.getwidth();
+	int h1 = src1.getheight();
+	int h2 = src2.getheight();
+	int comb_w = w1 + w2;
+	int comb_h = h1 > h2 ? h1 : h2;
+	Resize(&result, comb_w, comb_h);
+	SetWorkingImage(&result);
+	putimage(scan_line - w1, 0, &src1);
+	putimage(scan_line, 0, &src2);
+	SetWorkingImage(NULL);
+	return result;
+}
 #endif // !_UTIL_H_

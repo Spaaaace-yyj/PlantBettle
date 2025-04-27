@@ -4,6 +4,10 @@
 #include "scene.h"
 #include "scene_manager.h"
 #include "animation.h"
+#include "util.h"
+#include <easyx.h>
+
+#include <iostream>
 
 extern IMAGE img_VS;									
 extern IMAGE img_1P;									
@@ -25,7 +29,7 @@ extern IMAGE img_2P_selector_btn_down_right;
 extern IMAGE img_peashooter_selector_background_left;	
 extern IMAGE img_peashooter_selector_background_right;	
 extern IMAGE img_sunflower_selector_background_left;	
-extern IMAGE img_sunflower_selector_background_right;	
+extern IMAGE img_sunflower_selector_background_right;
 
 extern Atlas atlas_peashooter_idle_right;
 extern Atlas atlas_sunflower_idle_right;
@@ -46,6 +50,8 @@ public:
 
 	void on_update(int delta);
 
+	void on_input(const ExMessage& msg);
+
 	void outtextxy_shaded(int x, int y, LPCTSTR str);
 
 	void outtextxy_shaded(const POINT& pos, LPCTSTR str);
@@ -58,6 +64,9 @@ private:
 	};
 
 private:
+
+	int scan_line = 0;
+
 	POINT pos_img_vs = { 0 };					//vs图片位置
 	POINT pos_img_tip = { 0 };					//tips信息文本的位置
 	POINT pos_img_1P = { 0 };					//1P 文本图片的位置
@@ -79,10 +88,16 @@ private:
 	Animation animation_sunflower;
 
 	PlayerType player_type_1 = PlayerType::Peashooter;
-	PlayerType player_type_2 = PlayerType::SunFlower;
+	PlayerType player_type_2 = PlayerType::Peashooter;
 
 	LPCTSTR str_peashooter_name = _T("婉豆射手");
 	LPCTSTR str_sunflower_name = _T("龙日葵");
+
+private:
+	IMAGE img_peashooter_selector_background_left_extern;
+	IMAGE img_peashooter_selector_background_right_extern;
+	IMAGE img_sunflower_selector_background_left_extern;
+	IMAGE img_sunflower_selector_background_right_extern;
 };
 
 #endif
