@@ -137,22 +137,18 @@ void SelectScene::on_input(const ExMessage& msg) {
 		//A
 		if (msg.vkcode == 0x41) {
 			player_type_1 = SelectScene::PlayerType(((int)(player_type_1)+1) % (int)(SelectScene::PlayerType::Invalid));
-			//mciSendString(_T("play ui_confirm from 0"), NULL, 0, NULL);
 		}
 		//D
 		if (msg.vkcode == 0x44) {
 			player_type_1 = SelectScene::PlayerType(((int)(player_type_1)+1) % (int)(SelectScene::PlayerType::Invalid));
-			//mciSendString(_T("play ui_confirm from 0"), NULL, 0, NULL);
 		}
 		//<-
 		if (msg.vkcode == 0x25) {
 			player_type_2 = SelectScene::PlayerType(((int)(player_type_2)+1) % (int)(SelectScene::PlayerType::Invalid));
-			//mciSendString(_T("play ui_confirm from 0"), NULL, 0, NULL);
 		}
 		//->
 		if (msg.vkcode == 0x27) {
 			player_type_2 = SelectScene::PlayerType(((int)(player_type_2)+1) % (int)(SelectScene::PlayerType::Invalid));
-			//mciSendString(_T("play ui_confirm from 0"), NULL, 0, NULL);
 		}
 		if (msg.vkcode == VK_RETURN) {
 			scene_manager.switch_to(SceneManager::SceneType::Game);

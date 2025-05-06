@@ -3,6 +3,7 @@
 
 #include <graphics.h>
 #include "camera.h"
+#include "vector.h"
 #pragma comment(lib , "MSIMG32.LIB")
 
 inline void flip_image(IMAGE* src, IMAGE* dst) {
@@ -20,6 +21,7 @@ inline void flip_image(IMAGE* src, IMAGE* dst) {
 	}
 }
 
+//转换坐标位置到摄像机坐标系下的渲染
 inline void putimage_alpha(const Camera& camera, int x, int y, IMAGE* img) {
 	int w = img->getwidth();
 	int h = img->getheight();
@@ -27,20 +29,27 @@ inline void putimage_alpha(const Camera& camera, int x, int y, IMAGE* img) {
 		GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER , 0 , 255 , AC_SRC_ALPHA });
 }
 
+inline void putimage_alpha(const Camera& camera,POINT p, IMAGE* img) {
+	int w = img->getwidth();
+	int h = img->getheight();
+	AlphaBlend(GetImageHDC(NULL), (int)(p.x - camera.get_position().x), (int)(p.y - camera.get_position().y), w, h,
+		GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER , 0 , 255 , AC_SRC_ALPHA });
+}
+//渲染到屏幕坐标系
 inline void putimage_alpha(int x, int y, IMAGE* img) {
 	int w = img->getwidth();
 	int h = img->getheight();
 	AlphaBlend(GetImageHDC(NULL),x , y, w, h,
 		GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER , 0 , 255 , AC_SRC_ALPHA });
 }
-
+//渲染到屏幕坐标系，并裁切渲染
 inline void putimage_alpha(int x, int y, int width, int height, IMAGE* img) {
 	int w = width > 0 ? width : img->getwidth();
 	int h = height > 0 ? height : img->getheight();
 	AlphaBlend(GetImageHDC(NULL), x, y, w, h,
 		GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER , 0 , 255 , AC_SRC_ALPHA });
 }
-
+//转换相机坐标系并且裁切渲染
 inline void putimage_alpha(const Camera& camera, int x, int y, int width, int height, IMAGE* img) {
 	int w = width > 0 ? width : img->getwidth();
 	int h = height > 0 ? height : img->getheight();
@@ -48,6 +57,14 @@ inline void putimage_alpha(const Camera& camera, int x, int y, int width, int he
 		GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER , 0 , 255 , AC_SRC_ALPHA });
 }
 
+inline void putimage_alpha(const Camera& camera, POINT p, int width, int height, IMAGE* img) {
+	int w = width > 0 ? width : img->getwidth();
+	int h = height > 0 ? height : img->getheight();
+	AlphaBlend(GetImageHDC(NULL), (int)(p.x - camera.get_position().x), (int)(p.y - camera.get_position().y), w, h,
+		GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER , 0 , 255 , AC_SRC_ALPHA });
+}
+
+//将两个图像水平拼接渲染
 inline IMAGE combine_image(IMAGE src1, IMAGE src2, int scan_line) {
 	IMAGE result;
 	int w1 = src1.getwidth();
@@ -62,5 +79,15 @@ inline IMAGE combine_image(IMAGE src1, IMAGE src2, int scan_line) {
 	putimage(scan_line, 0, &src2);
 	SetWorkingImage(NULL);
 	return result;
+}
+
+inline void draw_line(const Camera& camera, POINT p1, POINT p2) {
+	const Vector2D camera_pos = camera.get_position();
+	line((int)(p1.x - camera_pos.x), (int)(p1.y - camera_pos.y), (int)(p2.x - camera_pos.x), (int)(p2.y - camera_pos.y));
+}
+
+inline void draw_line(const Camera& camera, int x1, int y1, int x2, int y2) {
+	const Vector2D camera_pos = camera.get_position();
+	line((int)(x1 - camera_pos.x), (int)(y1 - camera_pos.y), (int)(x2 - camera_pos.x), (int)(y2 - camera_pos.y));
 }
 #endif // !_UTIL_H_

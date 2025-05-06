@@ -10,6 +10,7 @@
 #include "atlas.h"
 #include "util.h"
 #include "animation.h"
+#include "plantform.h"
 
 #pragma comment(lib, "Winmm.lib")
 using namespace std;
@@ -88,7 +89,13 @@ Scene* menu_scene = nullptr;
 Scene* game_scene = nullptr;
 Scene* select_scene = nullptr;
 
+Camera camera;
+
 SceneManager scene_manager;
+
+std::vector<Plantform> plantform_list;
+
+bool is_debug = false;
 
 void flip_atlas(Atlas& src, Atlas& dst) {
 	dst.clear();
@@ -187,10 +194,16 @@ void load_game_resources() {
 	mciSendString(_T("open ./resources/ui_win.wav alias ui_win"), NULL, 0, NULL);
 }
 
+void debug_mode(const ExMessage &msg) {
+	if (msg.message == WM_MOUSEMOVE) {
+		printf("mouse x = %d, mouse y = %d\n", msg.x, msg.y);
+	}
+}
+
 int main() {
 
 	ExMessage msg;
-	Camera camera;
+	
 	menu_scene = new MenuScene();
 	game_scene = new GameScene();
 	select_scene = new SelectScene();
@@ -206,6 +219,9 @@ int main() {
 	scene_manager.set_current_scene(menu_scene);
 
 	while (true) {
+		if (is_debug) {
+			debug_mode(msg);
+		}
 		DWORD frame_start_time = GetTickCount();
 
 		while (peekmessage(&msg)) {
