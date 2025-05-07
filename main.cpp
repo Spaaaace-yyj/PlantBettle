@@ -11,6 +11,7 @@
 #include "util.h"
 #include "animation.h"
 #include "plantform.h"
+#include "player.h"
 
 #pragma comment(lib, "Winmm.lib")
 using namespace std;
@@ -94,6 +95,9 @@ Camera camera;
 SceneManager scene_manager;
 
 std::vector<Plantform> plantform_list;
+
+Player* player_1 = nullptr;
+Player* player_2 = nullptr;
 
 bool is_debug = false;
 
@@ -196,7 +200,7 @@ void load_game_resources() {
 
 void debug_mode(const ExMessage &msg) {
 	if (msg.message == WM_MOUSEMOVE) {
-		printf("mouse x = %d, mouse y = %d\n", msg.x, msg.y);
+		printf("[Debug Mode]mouse x = %d, mouse y = %d\n", msg.x, msg.y);
 	}
 }
 

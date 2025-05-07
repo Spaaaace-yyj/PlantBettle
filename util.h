@@ -3,7 +3,7 @@
 
 #include <graphics.h>
 #include "camera.h"
-#include "vector.h"
+#include "vector2D.h"
 #pragma comment(lib , "MSIMG32.LIB")
 
 inline void flip_image(IMAGE* src, IMAGE* dst) {

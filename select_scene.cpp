@@ -156,3 +156,25 @@ void SelectScene::on_input(const ExMessage& msg) {
 		}
 	}
 }
+
+void SelectScene::on_exit() {
+	switch (player_type_1) {
+	case PlayerType::Peashooter:
+		player_1 = new PeashooterPlayer();
+		break;
+	case PlayerType::SunFlower:
+		player_1 = new SunFlowerPlayer();
+	}
+	player_1->set_id(PlayerID::P1);
+
+	switch (player_type_2) {
+	case PlayerType::Peashooter:
+		player_2 = new PeashooterPlayer();
+		break;
+	case PlayerType::SunFlower:
+		player_2 = new SunFlowerPlayer();
+		break;
+	}
+	player_2->set_id(PlayerID::P2);
+
+}

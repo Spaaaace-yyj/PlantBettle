@@ -5,8 +5,12 @@
 #include "scene_manager.h"
 #include "animation.h"
 #include "util.h"
-#include <easyx.h>
+#include "player.h"
+#include "peashooter_player.h"
+#include "sunflower_player.h"
+#include "player_id.h"
 
+#include <easyx.h>
 #include <iostream>
 
 extern IMAGE img_VS;									
@@ -39,6 +43,9 @@ extern IMAGE img_avatar_sunflower;
 
 extern SceneManager scene_manager;
 
+extern Player* player_1;
+extern Player* player_2;
+
 class SelectScene : public Scene {
 public:
 	SelectScene() = default;
@@ -55,6 +62,8 @@ public:
 	void outtextxy_shaded(int x, int y, LPCTSTR str);
 
 	void outtextxy_shaded(const POINT& pos, LPCTSTR str);
+
+	void on_exit();
 
 private:
 	enum class PlayerType {
@@ -88,7 +97,7 @@ private:
 	Animation animation_sunflower;
 
 	PlayerType player_type_1 = PlayerType::Peashooter;
-	PlayerType player_type_2 = PlayerType::Peashooter;
+	PlayerType player_type_2 = PlayerType::SunFlower;
 
 	LPCTSTR str_peashooter_name = _T("ÕÒ∂π…‰ ÷");
 	LPCTSTR str_sunflower_name = _T("¡˙»’ø˚");

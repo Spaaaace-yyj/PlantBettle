@@ -8,6 +8,11 @@
 #include "easyx.h"
 #include "util.h"
 #include "plantform.h"
+#include "peashooter_player.h"
+#include "sunflower_player.h"
+
+extern Player* player_1;
+extern Player* player_2;
 
 extern IMAGE img_sky;
 extern IMAGE img_hills;

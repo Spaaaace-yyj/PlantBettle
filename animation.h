@@ -37,7 +37,7 @@ private:
 	int timer = 0;
 	int interval = 0;	//µ¥Î»ms
 	int idx_frame = 0;
-	bool is_loop;
+	bool is_loop = true;
 	Atlas* atlas = nullptr;
 	std::function<void()> callback;
 };

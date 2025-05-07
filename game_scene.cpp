@@ -2,12 +2,13 @@
 #include <iostream>
 
 void GameScene::on_enter() {
+	//初始化天空背景渲染位置
 	pos_img_sky.x = (getwidth() - img_sky.getwidth()) / 2;
 	pos_img_sky.y = (getheight() - img_sky.getheight()) / 2;
-
+	//初始化山脉的渲染位置
 	pos_img_hills.x = (getwidth() - img_hills.getwidth()) / 2;
 	pos_img_hills.y = (getheight() - img_hills.getheight()) / 2;
-
+	//初始化平台位置和碰撞外形信息
 	plantform_list.resize(4);
 	Plantform& large_plantform = plantform_list[0];
 	large_plantform.img = &img_platform_large;
@@ -41,6 +42,9 @@ void GameScene::on_enter() {
 	small_plantform_3.shape.right = (float)small_plantform_3.render_position.x + img_platform_small.getwidth() - 40;
 	small_plantform_3.shape.y = (float)small_plantform_3.render_position.y + img_platform_small.getheight() / 2;
 
+	player_1->set_position(200, 50);
+	player_2->set_position(975, 50);
+
 }
 
 void GameScene::on_draw(const Camera& camera) {
@@ -57,9 +61,14 @@ void GameScene::on_draw(const Camera& camera) {
 			draw_line(camera, plantform.shape.left, plantform.shape.y, plantform.shape.right, plantform.shape.y);
 		}
 	}
+	player_1->on_draw(camera);
+	player_2->on_draw(camera);
 }
 
 void GameScene::on_input(const ExMessage& msg) {
+	player_1->on_input(msg);
+	player_2->on_input(msg);
+
 	if (msg.message == WM_KEYUP) {
 		if (msg.vkcode == 0x51) {
 			if (is_debug) {
@@ -73,7 +82,8 @@ void GameScene::on_input(const ExMessage& msg) {
 }
 
 void GameScene::on_update(int delta) {
-	
+	player_1->on_update(delta);
+	player_2->on_update(delta);
 }
 
 void GameScene::on_exit() {
