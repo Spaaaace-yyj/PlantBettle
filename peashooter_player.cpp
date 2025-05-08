@@ -2,8 +2,6 @@
 
 void PeashooterPlayer::on_update(int delta) {
 	Player::on_update(delta);
-
-	std::cout << "[debug]PeashooterPlayer is updateing..." << std::endl;
 }
 
 PeashooterPlayer::PeashooterPlayer() {
@@ -16,4 +14,7 @@ PeashooterPlayer::PeashooterPlayer() {
 	animation_idle_right.set_interval(75);
 	animation_run_left.set_interval(75);
 	animation_run_right.set_interval(75);
+	size.x = 96;
+	size.y = 96;
 }
+

@@ -81,7 +81,7 @@ inline IMAGE combine_image(IMAGE src1, IMAGE src2, int scan_line) {
 	return result;
 }
 
-inline void draw_line(const Camera& camera, POINT p1, POINT p2) {
+inline void draw_line(const Camera& camera, Vector2D p1, Vector2D p2) {
 	const Vector2D camera_pos = camera.get_position();
 	line((int)(p1.x - camera_pos.x), (int)(p1.y - camera_pos.y), (int)(p2.x - camera_pos.x), (int)(p2.y - camera_pos.y));
 }

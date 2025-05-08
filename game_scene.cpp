@@ -48,21 +48,45 @@ void GameScene::on_enter() {
 }
 
 void GameScene::on_draw(const Camera& camera) {
+
+
 	putimage_alpha(camera, pos_img_sky, &img_sky);
 	putimage_alpha(camera, pos_img_hills, &img_hills);
 	for (const Plantform& plantform : plantform_list) {
 		putimage_alpha(camera, plantform.render_position, plantform.img);
 	}
 
+	//debug mode
+
+	player_1->on_draw(camera);
+	player_2->on_draw(camera);
+
 	if (is_debug) {
+		
+		setlinestyle(PS_SOLID, 3, NULL);
 		setlinecolor(RGB(255, 0, 0));
+		settextcolor(RGB(255, 0, 0));
+		outtextxy(15, 15, _T("Debug mode"));
 
 		for (const Plantform& plantform : plantform_list) {
 			draw_line(camera, plantform.shape.left, plantform.shape.y, plantform.shape.right, plantform.shape.y);
 		}
+		
+		setlinecolor(RGB(0, 0, 255));
+		Vector2D player_center_1 = { player_1->get_position().x + player_1->get_size().x / 2, player_1->get_position().y + player_1->get_size().y / 2 };
+		Vector2D player_velocity_1 = player_center_1 + player_1->get_velocity() * 100;
+		draw_line(camera, player_center_1, player_velocity_1);
+
+		Vector2D player_center_2 = { player_2->get_position().x + player_2->get_size().x / 2, player_2->get_position().y + player_2->get_size().y / 2 };
+		Vector2D player_velocity_2 = player_center_2 + player_2->get_velocity() * 100;
+		draw_line(camera, player_center_2, player_velocity_2);
+
+		settextcolor(RGB(30, 255, 209));
+		settextstyle(15, 15, _T("IPix"));
+
+		outtextxy(player_velocity_1.x, player_velocity_1.y, _T("V1"));
+		outtextxy(player_velocity_2.x, player_velocity_2.y, _T("V2"));
 	}
-	player_1->on_draw(camera);
-	player_2->on_draw(camera);
 }
 
 void GameScene::on_input(const ExMessage& msg) {

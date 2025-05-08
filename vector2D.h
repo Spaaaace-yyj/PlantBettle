@@ -2,6 +2,7 @@
 #define _VECTOR2D_H_
 
 #include <math.h>
+#include <iostream>
 
 class Vector2D {
 public:
@@ -56,6 +57,11 @@ public:
 		x *= vel;
 		y *= vel;
 	}
+
+	Vector2D operator=(const Vector2D& vec) {
+		return vec;
+	}
+
 public:
 	float x, y;
 };
