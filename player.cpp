@@ -3,6 +3,12 @@
 
 Player::Player() {
 	current_animation = &animation_idle_left;
+
+	timer_attack_cd.set_wait_time(attack_cd);
+	timer_attack_cd.set_trigger_once(true);
+	timer_attack_cd.set_callback([&]() {
+		can_attack = true;
+		});
 }
 
 void Player::on_update(int delta) {
@@ -22,6 +28,8 @@ void Player::on_update(int delta) {
 	}
 	current_animation->on_update(delta);
 	move_and_collide(delta);
+
+	timer_attack_cd.on_update(delta);
 }
 
 void Player::on_draw(const Camera& camera) {
@@ -44,6 +52,17 @@ void Player::on_input(const ExMessage& msg) {
 			case 0x57:
 				on_jump();
 				break;
+			case 0x46:
+				if (can_attack) {
+					on_attack();
+					can_attack = false;
+					timer_attack_cd.restart();
+				}
+			case 0x47:
+				if (mp >= 100) {
+					on_attack_ex();
+					mp = 0;
+				}
 			}
 			break;
 		case PlayerID::P2:
@@ -57,6 +76,17 @@ void Player::on_input(const ExMessage& msg) {
 			case 0x26:
 				on_jump();
 				break;
+			case VK_OEM_PERIOD:
+				if (can_attack) {
+					on_attack();
+					can_attack = false;
+					timer_attack_cd.restart();
+				}
+			case VK_OEM_2:
+				if (mp >= 100) {
+					on_attack_ex();
+					mp = 0;
+				}
 			}
 			break;
 		}
@@ -100,6 +130,10 @@ void Player::set_position(float x, float y) {
 }
 
 void Player::on_run(float distance) {
+	if (is_attacking_ex) {
+		return;
+	}
+
 	position.x += distance;
 }
 
@@ -130,7 +164,7 @@ void Player::move_and_collide(int delta) {
 }
 
 void Player::on_jump() {
-	if (velocity.y == 0) {
+	if (velocity.y == 0 && !is_attacking_ex) {
 		velocity.y += jump_velocity;
 	}
 }

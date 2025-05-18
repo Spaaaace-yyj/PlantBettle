@@ -12,6 +12,7 @@
 #include "animation.h"
 #include "plantform.h"
 #include "player.h"
+#include "bullet.h"
 
 #pragma comment(lib, "Winmm.lib")
 using namespace std;
@@ -98,6 +99,8 @@ std::vector<Plantform> plantform_list;
 
 Player* player_1 = nullptr;
 Player* player_2 = nullptr;
+
+std::vector<Bullet*> bullet_list;
 
 bool is_debug = false;
 

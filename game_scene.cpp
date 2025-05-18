@@ -48,8 +48,6 @@ void GameScene::on_enter() {
 }
 
 void GameScene::on_draw(const Camera& camera) {
-
-
 	putimage_alpha(camera, pos_img_sky, &img_sky);
 	putimage_alpha(camera, pos_img_hills, &img_hills);
 	for (const Plantform& plantform : plantform_list) {
@@ -60,6 +58,11 @@ void GameScene::on_draw(const Camera& camera) {
 
 	player_1->on_draw(camera);
 	player_2->on_draw(camera);
+
+	for (Bullet* bullet : bullet_list) {
+		bullet->on_draw(camera);
+	}
+
 
 	if (is_debug) {
 		
@@ -108,6 +111,12 @@ void GameScene::on_input(const ExMessage& msg) {
 void GameScene::on_update(int delta) {
 	player_1->on_update(delta);
 	player_2->on_update(delta);
+
+	camera.on_update(delta);
+
+	for (Bullet* bullet : bullet_list) {
+		bullet->on_update(delta);
+	}
 }
 
 void GameScene::on_exit() {
